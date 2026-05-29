@@ -1,4 +1,5 @@
-import { Trash2 } from "lucide-react";
+import { Trash2, Download } from "lucide-react";
+import { downloadDocument } from "../../services/documentService";
 
 const DocumentTable = ({
   documents,
@@ -48,14 +49,26 @@ const DocumentTable = ({
               </td>
 
               <td className="p-4">
-                <button
-                  onClick={() =>
-                    onDelete(doc.id)
-                  }
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <Trash2 size={18} />
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() =>
+                      downloadDocument(doc.id, doc.filename)
+                    }
+                    className="text-blue-500 hover:text-blue-700"
+                    title="Download"
+                  >
+                    <Download size={18} />
+                  </button>
+                  <button
+                    onClick={() =>
+                      onDelete(doc.id)
+                    }
+                    className="text-red-500 hover:text-red-700"
+                    title="Delete"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

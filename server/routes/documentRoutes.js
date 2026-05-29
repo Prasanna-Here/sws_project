@@ -6,6 +6,7 @@ import {
   uploadDocuments,
   getDocuments,
   deleteDocument,
+  downloadDocument,
 } from "../controllers/documentController.js";
 
 const router = express.Router();
@@ -18,4 +19,6 @@ router.post(
 
 router.get("/", getDocuments);
 router.delete("/:id", deleteDocument);
+router.get("/download/:id", downloadDocument);
+
 export default router;

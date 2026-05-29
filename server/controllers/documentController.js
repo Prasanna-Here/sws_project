@@ -136,3 +136,35 @@ export const deleteDocument = async (
         });
     }
 };
+
+export const downloadDocument = async (
+    req,
+    res
+) => {
+    try {
+        const { id } = req.params;
+
+        const [rows] = await db.query(
+            `
+      SELECT * FROM documents
+      WHERE id = ?
+      `,
+            [id]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: "Document not found",
+            });
+        }
+
+        const doc = rows[0];
+        res.download(doc.filepath, doc.filename);
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Download failed",
+        });
+    }
+};

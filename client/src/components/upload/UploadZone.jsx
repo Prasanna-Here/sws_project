@@ -4,6 +4,9 @@ import { useDropzone } from "react-dropzone";
 const UploadZone = ({ onFilesSelected }) => {
   const { getRootProps, getInputProps, isDragActive } =
     useDropzone({
+      accept: {
+        "application/pdf": [".pdf"],
+      },
       onDrop: (acceptedFiles) => {
         onFilesSelected(acceptedFiles);
       },

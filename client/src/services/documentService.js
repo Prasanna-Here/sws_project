@@ -36,3 +36,13 @@ export const deleteDocument = async (
     `${API}/${id}`
   );
 };
+
+export const downloadDocument = async (id, filename) => {
+  const url = `${API}/download/${id}`;
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
