@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import socket from "../socket/socket";
-
+import BulkUploadBanner from "../components/upload/BulkUploadBanner";
 import NotificationBell from "../components/notifications/NotificationBell";
 
 import {
@@ -29,7 +29,12 @@ const Dashboard = () => {
 
     // DOCUMENT LIBRARY STATE
     const [documents, setDocuments] = useState([]);
+    // Bulk upload banner
+    const [isBulkUpload, setIsBulkUpload] =
+        useState(false);
 
+    const [bulkMessage, setBulkMessage] =
+        useState("");
     // FETCH DOCUMENTS
     const fetchDocuments = async () => {
         try {
@@ -123,7 +128,17 @@ const Dashboard = () => {
                 progress: 0,
             })
         );
+        if (selectedFiles.length > 3) {
+            setIsBulkUpload(true);
 
+            setBulkMessage(
+                `Upload in progress — processing ${selectedFiles.length} files in background`
+            );
+        } else {
+            setIsBulkUpload(false);
+
+            setBulkMessage("");
+        }
         // ADD TO QUEUE
         setFiles((prev) => [
             ...prev,
@@ -153,6 +168,15 @@ const Dashboard = () => {
 
             // REFRESH DOCUMENTS
             await fetchDocuments();
+            if (selectedFiles.length > 3) {
+                setBulkMessage(
+                    `${selectedFiles.length} files uploaded successfully`
+                );
+
+                setTimeout(() => {
+                    setIsBulkUpload(false);
+                }, 4000);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -179,7 +203,17 @@ const Dashboard = () => {
                 <UploadZone
                     onFilesSelected={handleFiles}
                 />
-
+                {/* BULK UPLOAD BANNER */}
+                {isBulkUpload && (
+                    <BulkUploadBanner
+                        message={bulkMessage}
+                        completed={
+                            bulkMessage.includes(
+                                "successfully"
+                            )
+                        }
+                    />
+                )}
                 {/* UPLOAD QUEUE */}
                 <UploadQueue
                     files={files}
