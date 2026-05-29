@@ -22,7 +22,26 @@ export const uploadDocuments = async (
           "completed",
         ]
       );
+
+      await db.query(
+        `
+        INSERT INTO notifications
+        (message, type)
+        VALUES (?, ?)
+        `,
+        [
+          `${file.originalname} uploaded successfully`,
+          "upload",
+        ]
+      );
     }
+
+    const io = req.app.get("io");
+
+    io.emit("newNotification", {
+      message:
+        "New document uploaded",
+    });
 
     res.status(200).json({
       success: true,
