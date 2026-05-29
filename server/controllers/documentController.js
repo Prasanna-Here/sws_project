@@ -76,3 +76,31 @@ export const getDocuments = async (
     });
   }
 };
+
+export const deleteDocument = async (
+  req,
+  res
+) => {
+  try {
+    const { id } = req.params;
+
+    await db.query(
+      `
+      DELETE FROM documents
+      WHERE id = ?
+      `,
+      [id]
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Document deleted",
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Delete failed",
+    });
+  }
+};

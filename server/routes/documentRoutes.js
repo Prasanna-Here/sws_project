@@ -5,6 +5,7 @@ import upload from "../config/multer.js";
 import {
   uploadDocuments,
   getDocuments,
+  deleteDocument,
 } from "../controllers/documentController.js";
 
 const router = express.Router();
@@ -16,5 +17,5 @@ router.post(
 );
 
 router.get("/", getDocuments);
-
+router.delete("/:id", deleteDocument);
 export default router;
