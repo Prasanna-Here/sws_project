@@ -35,3 +35,25 @@ export const uploadDocuments = async (
     });
   }
 };
+
+export const getDocuments = async (
+  req,
+  res
+) => {
+  try {
+    const [documents] = await db.query(
+      `
+      SELECT * FROM documents
+      ORDER BY uploaded_at DESC
+      `
+    );
+
+    res.status(200).json(documents);
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Failed to fetch documents",
+    });
+  }
+};
