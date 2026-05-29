@@ -24,3 +24,7 @@ export const uploadDocuments = async (
     }
   );
 };
+
+export const getDocuments = async () => {
+  return axios.get(API);
+};
