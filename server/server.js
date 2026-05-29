@@ -5,11 +5,16 @@ import http from "http";
 import { Server } from "socket.io";
 
 import documentRoutes from "./routes/documentRoutes.js";
-
+import notificationRoutes from "./routes/notificationRoutes.js";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(
+  "/api/notifications",
+  notificationRoutes
+);
 
 const server = http.createServer(app);
 
