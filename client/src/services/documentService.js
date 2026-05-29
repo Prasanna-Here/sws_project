@@ -28,3 +28,11 @@ export const uploadDocuments = async (
 export const getDocuments = async () => {
   return axios.get(API);
 };
+
+export const deleteDocument = async (
+  id
+) => {
+  return axios.delete(
+    `${API}/${id}`
+  );
+};
