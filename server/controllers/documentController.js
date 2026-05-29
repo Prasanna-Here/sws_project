@@ -1,5 +1,6 @@
 import db from "../config/db.js";
 
+
 export const uploadDocuments = async (
     req,
     res
@@ -7,11 +8,18 @@ export const uploadDocuments = async (
     try {
         const files = req.files;
 
+        // SAVE DOCUMENTS
         for (const file of files) {
             await db.query(
                 `
         INSERT INTO documents
-        (filename, filepath, filesize, filetype, status)
+        (
+          filename,
+          filepath,
+          filesize,
+          filetype,
+          status
+        )
         VALUES (?, ?, ?, ?, ?)
         `,
                 [
@@ -22,34 +30,50 @@ export const uploadDocuments = async (
                     "completed",
                 ]
             );
-
-            if (files.length > 3) {
-                await db.query(
-                    `
-    INSERT INTO notifications
-    (message, type)
-    VALUES (?, ?)
-    `,
-                    [
-                        `${files.length} files uploaded successfully.`,
-                        "bulk-upload",
-                    ]
-                );
-
-                const io = req.app.get("io");
-
-                io.emit("newNotification", {
-                    message: `${files.length} files uploaded successfully.`,
-                });
-            }
         }
 
+        // SOCKET
         const io = req.app.get("io");
 
-        io.emit("newNotification", {
-            message:
-                "New document uploaded",
-        });
+        // BULK UPLOAD
+        if (files.length > 3) {
+            await db.query(
+                `
+        INSERT INTO notifications
+        (message, type)
+        VALUES (?, ?)
+        `,
+                [
+                    `${files.length} files uploaded successfully.`,
+                    "bulk-upload",
+                ]
+            );
+
+            io.emit("newNotification", {
+                message: `${files.length} files uploaded successfully.`,
+            });
+        }
+
+        // INDIVIDUAL UPLOADS
+        else {
+            for (const file of files) {
+                await db.query(
+                    `
+          INSERT INTO notifications
+          (message, type)
+          VALUES (?, ?)
+          `,
+                    [
+                        `${file.originalname} uploaded successfully.`,
+                        "upload",
+                    ]
+                );
+            }
+
+            io.emit("newNotification", {
+                message: "New upload completed",
+            });
+        }
 
         res.status(200).json({
             success: true,
