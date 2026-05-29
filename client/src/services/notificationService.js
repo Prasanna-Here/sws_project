@@ -15,3 +15,9 @@ export const markAsRead = async (
     `${API}/${id}/read`
   );
 };
+export const markAllAsRead =
+  async () => {
+    return axios.put(
+      `${API}/read-all`
+    );
+  };

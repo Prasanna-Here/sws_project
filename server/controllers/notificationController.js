@@ -23,7 +23,28 @@ export const getNotifications =
       });
     }
   };
+export const markAllAsRead =
+  async (req, res) => {
+    try {
+      await db.query(
+        `
+        UPDATE notifications
+        SET is_read = true
+        `
+      );
 
+      res.status(200).json({
+        success: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+        message:
+          "Failed to mark all as read",
+      });
+    }
+  };
 export const markAsRead = async (
   req,
   res

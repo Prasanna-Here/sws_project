@@ -6,6 +6,7 @@ import NotificationBell from "../components/notifications/NotificationBell";
 import {
     getNotifications,
     markAsRead,
+    markAllAsRead,
 } from "../services/notificationService";
 import {
     uploadDocuments,
@@ -45,6 +46,16 @@ const Dashboard = () => {
             console.log(error);
         }
     };
+    const handleMarkAllRead =
+        async () => {
+            try {
+                await markAllAsRead();
+
+                fetchNotifications();
+            } catch (error) {
+                console.log(error);
+            }
+        };
 
     // FETCH ON PAGE LOAD
     useEffect(() => {
@@ -185,14 +196,17 @@ const Dashboard = () => {
     return (
         <div className="min-h-screen bg-slate-50">
             {/* NAVBAR */}
-            <Navbar
-                notifications={notifications}
-                showDropdown={showDropdown}
-                setShowDropdown={setShowDropdown}
-                markNotificationRead={
-                    markNotificationRead
-                }
-            />
+<Navbar
+  notifications={notifications}
+  showDropdown={showDropdown}
+  setShowDropdown={setShowDropdown}
+  markNotificationRead={
+    markNotificationRead
+  }
+  markAllRead={
+    handleMarkAllRead
+  }
+/>
 
             {/* TABS */}
             <Tabs />
