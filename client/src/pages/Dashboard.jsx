@@ -176,7 +176,9 @@ const Dashboard = () => {
                     );
                 }
             );
-
+            await new Promise((resolve) =>
+  setTimeout(resolve, 2500)
+);
             // REFRESH DOCUMENTS
             await fetchDocuments();
             if (selectedFiles.length > 3) {
