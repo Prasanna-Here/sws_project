@@ -267,7 +267,7 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50/50">
             {/* NAVBAR */}
             <Navbar
                 notifications={notifications}
@@ -281,7 +281,7 @@ const Dashboard = () => {
             <Tabs />
 
             {/* PAGE CONTENT */}
-            <div className="p-6 space-y-6">
+            <div className="max-w-5xl mx-auto p-6 md:p-8 space-y-8">
                 {/* UPLOAD ZONE */}
                 <UploadZone onFilesSelected={handleFiles} />
                 
@@ -303,7 +303,7 @@ const Dashboard = () => {
 
                 {/* DOCUMENT LIBRARY */}
                 <div className="space-y-4">
-                    <h2 className="text-xl font-semibold">
+                    <h2 className="text-lg font-bold text-slate-800 tracking-tight">
                         Document Library
                     </h2>
 
@@ -319,18 +319,20 @@ const Dashboard = () => {
             </div>
 
             {/* FLOATING TOAST NOTIFICATIONS */}
-            <div className="fixed bottom-5 right-5 space-y-2 z-50 pointer-events-none">
+            <div className="fixed bottom-6 right-6 space-y-3 z-50 pointer-events-none">
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className="bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-300 pointer-events-auto border border-slate-800 transform hover:scale-105"
-                        style={{ animation: "slideIn 0.3s ease-out forwards" }}
+                        className="bg-slate-900 border border-slate-800/80 text-slate-100 pl-5 pr-3 py-3 rounded-2xl shadow-xl flex items-center gap-3 transition-all duration-350 pointer-events-auto transform hover:scale-[1.02]"
+                        style={{ 
+                            animation: "slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                        }}
                     >
-                        <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shrink-0" />
-                        <span className="text-sm font-medium">{toast.message}</span>
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                        <span className="text-xs font-semibold tracking-tight">{toast.message}</span>
                         <button
                             onClick={() => setToasts((prev) => prev.filter((t) => t.id !== toast.id))}
-                            className="text-gray-400 hover:text-white ml-2 text-xs font-bold shrink-0 focus:outline-none"
+                            className="text-slate-500 hover:text-slate-300 p-1 hover:bg-slate-800 rounded-lg transition shrink-0 focus:outline-none"
                         >
                             ✕
                         </button>
@@ -342,11 +344,11 @@ const Dashboard = () => {
             <style>{`
                 @keyframes slideIn {
                     from {
-                        transform: translateY(20px);
+                        transform: translateY(24px) scale(0.95);
                         opacity: 0;
                     }
                     to {
-                        transform: translateY(0);
+                        transform: translateY(0) scale(1);
                         opacity: 1;
                     }
                 }
