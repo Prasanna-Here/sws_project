@@ -38,7 +38,7 @@ const DocumentTable = ({
               </td>
 
               <td className="p-4">
-                {doc.filesize}
+                {(doc.filesize / 1024).toFixed(1)} KB
               </td>
 
               <td className="p-4">
