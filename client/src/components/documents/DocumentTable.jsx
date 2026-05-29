@@ -14,10 +14,6 @@ const DocumentTable = ({
             </th>
 
             <th className="text-left p-4">
-              Type
-            </th>
-
-            <th className="text-left p-4">
               Size
             </th>
 
@@ -39,10 +35,6 @@ const DocumentTable = ({
             >
               <td className="p-4">
                 {doc.filename}
-              </td>
-
-              <td className="p-4">
-                {doc.filetype}
               </td>
 
               <td className="p-4">
