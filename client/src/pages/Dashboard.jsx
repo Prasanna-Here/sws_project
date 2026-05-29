@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import {
     uploadDocuments,
     getDocuments,
-    deleteDocument,
 } from "../services/documentService";
 
 import Navbar from "../components/layout/Navbar";
@@ -20,15 +19,7 @@ const Dashboard = () => {
     const [files, setFiles] = useState([]);
 
     const [documents, setDocuments] = useState([]);
-    const handleDelete = async (id) => {
-        try {
-            await deleteDocument(id);
 
-            fetchDocuments();
-        } catch (error) {
-            console.log(error);
-        }
-    };
     // FETCH DOCUMENTS
     const fetchDocuments = async () => {
         try {
@@ -127,7 +118,6 @@ const Dashboard = () => {
                     {documents.length > 0 ? (
                         <DocumentTable
                             documents={documents}
-                            onDelete={handleDelete}
                         />
                     ) : (
                         <EmptyState />

@@ -1,9 +1,4 @@
-import { Trash2 } from "lucide-react";
-
-const DocumentTable = ({
-  documents,
-  onDelete,
-}) => {
+const DocumentTable = ({ documents }) => {
   return (
     <div className="bg-white rounded-2xl border overflow-hidden">
       <table className="w-full">
@@ -23,10 +18,6 @@ const DocumentTable = ({
 
             <th className="text-left p-4">
               Uploaded
-            </th>
-
-            <th className="text-left p-4">
-              Action
             </th>
           </tr>
         </thead>
@@ -53,17 +44,6 @@ const DocumentTable = ({
                 {new Date(
                   doc.uploaded_at
                 ).toLocaleDateString()}
-              </td>
-
-              <td className="p-4">
-                <button
-                  onClick={() =>
-                    onDelete(doc.id)
-                  }
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <Trash2 size={18} />
-                </button>
               </td>
             </tr>
           ))}
